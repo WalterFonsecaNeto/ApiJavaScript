@@ -45,6 +45,15 @@ export class UsuarioService {
 
     return usuario;
   }
+  async obterUsuarioComLoja(id) {
+    const usuario = await usuarioRepository.buscarPorIdComLoja(id);
+
+    if (!usuario) {
+      throw new Error("Usuário não encontrado.");
+    }
+
+    return usuario;
+  }
 
   async atualizarNomeUsuario(id, nome) {
     const usuarioEncontrado = await usuarioRepository.buscarPorId(id);

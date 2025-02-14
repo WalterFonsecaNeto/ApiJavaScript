@@ -23,7 +23,14 @@ export async function listarUsuarios(req, res) {
 export async function obterUsuario(req, res) {
   try {
     const usuario = await usuarioService.obterUsuario(req.params.id);
-    console.log(usuario);
+    res.status(200).json(usuario);
+  } catch (error) {
+    res.status(404).json({ erro: error.message });
+  }
+}
+export async function obterUsuarioComLoja(req, res) {
+  try {
+    const usuario = await usuarioService.obterUsuarioComLoja(req.params.id);
     res.status(200).json(usuario);
   } catch (error) {
     res.status(404).json({ erro: error.message });

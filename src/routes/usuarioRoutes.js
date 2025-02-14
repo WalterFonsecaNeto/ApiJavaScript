@@ -5,7 +5,8 @@ import {
   obterUsuario,
   atualizarNomeUsuario,
   deletarUsuario,
-  validarUsuarioLogin
+  validarUsuarioLogin,
+  obterUsuarioComLoja
 } from "../controllers/usuarioController.js";
 
 const router = express.Router();
@@ -17,6 +18,7 @@ router.get("/usuario/login", validarUsuarioLogin);
 router.post("/usuario/cadastrar", cadastrarUsuario);
 router.put("/usuario/atualizar/:id", atualizarNomeUsuario);
 router.delete("/usuario/deletar/:id", deletarUsuario);
+router.get("/usuario/obterComUsuario/:id", obterUsuarioComLoja);
 
 
 export default router;

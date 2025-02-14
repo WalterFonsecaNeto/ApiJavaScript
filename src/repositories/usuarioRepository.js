@@ -45,7 +45,7 @@ export class UsuarioRepository {
       },
     });
   }
-  async validarUsuarioLogin(email){
+  async validarUsuarioLogin(email) {
     return await prisma.usuarios.findUnique({
       where: { email },
       select: {
@@ -53,7 +53,6 @@ export class UsuarioRepository {
         // Selecione apenas os campos necessários
       },
     });
-      
   }
 
   async atualizarNomeUsuario(id, nome) {
@@ -69,7 +68,23 @@ export class UsuarioRepository {
     return await prisma.usuarios.delete({
       where: { id },
     });
-    
+  }
 
+  async buscarPorIdComLoja(id) {
+    return await prisma.usuarios.findUnique({
+      where: { id },
+      select: {
+        id: true,
+        nome: true,
+        email: true,
+        loja: {
+          select: {
+            nome: true,
+            endereco: true,
+            // Aqui você pega o nome da loja relacionada
+          },
+        },
+      },
+    });
   }
 }
