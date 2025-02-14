@@ -12,22 +12,41 @@ export class UsuarioRepository {
   }
 
   async listarUsuarios() {
-    return await prisma.usuarios.findMany();
+    return await prisma.usuarios.findMany({
+      select: {
+        id: true,
+        nome: true,
+        email: true,
+        // Selecione apenas os campos necessários
+      },
+    });
   }
 
   async buscarPorId(id) {
     return await prisma.usuarios.findUnique({
       where: { id },
+      select: {
+        id: true,
+        nome: true,
+        email: true,
+        // Selecione apenas os campos necessários
+      },
     });
   }
 
   async buscarPorEmail(email) {
     return await prisma.usuarios.findUnique({
       where: { email },
+      select: {
+        id: true,
+        nome: true,
+        email: true,
+        // Selecione apenas os campos necessários
+      },
     });
   }
 
-  async atualizarUsuario(id, nome) {
+  async atualizarNomeUsuario(id, nome) {
     return await prisma.usuarios.update({
       where: { id },
       data: {

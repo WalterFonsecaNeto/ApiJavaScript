@@ -1,5 +1,6 @@
 import { UsuarioRepository } from "../repositories/usuarioRepository.js";
 import { Usuario } from "../domain/usuario.js";
+import bcrypt from 'bcrypt';
 
 const usuarioRepository = new UsuarioRepository();
 
@@ -27,11 +28,14 @@ export class UsuarioService {
 
   async listarUsuarios() {
     const usuarios = await usuarioRepository.listarUsuarios();
-
-    if (usuarios.Count() === 0) {
+  
+    if (usuarios.length === 0) {
       throw new Error("Nenhum usuário encontrado.");
     }
+
+    return usuarios
   }
+  
 
   async obterUsuario(id) {
     const usuario = await usuarioRepository.buscarPorId(id);
@@ -51,7 +55,7 @@ export class UsuarioService {
       throw new Error("Usuário não encontrado.");
     }
 
-    return await usuarioRepository.atualizarUsuario(id, nome);
+    return await usuarioRepository.atualizarNomeUsuario(id, nome);
   }
 
   async deletarUsuario(id) {

@@ -12,22 +12,27 @@ export async function cadastrarUsuario(req, res) {
 }
 
 export async function listarUsuarios(req, res) {
-  const usuarios = await usuarioService.listarUsuarios();
-  res.status(200).json(usuarios);
+  try {
+    const usuarios = await usuarioService.listarUsuarios();
+    res.status(200).json(usuarios);
+  } catch (error) {
+    res.status(404).json({ erro: error.message });
+  }
 }
 
 export async function obterUsuario(req, res) {
   try {
     const usuario = await usuarioService.obterUsuario(req.params.id);
+    console.log(usuario);
     res.status(200).json(usuario);
   } catch (error) {
     res.status(404).json({ erro: error.message });
   }
 }
 
-export async function atualizarUsuario(req, res) {
+export async function atualizarNomeUsuario(req, res) {
   try {
-    const usuarioAtualizado = await usuarioService.atualizarUsuario(
+    const usuarioAtualizado = await usuarioService.atualizarNomeUsuario(
       req.params.id,
       req.body.nome
     );
