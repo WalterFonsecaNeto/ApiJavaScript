@@ -10,11 +10,13 @@ import {
 
 const router = express.Router();
 
-router.post("/usuario/cadastrar", cadastrarUsuario);
+
 router.get("/usuario/listar", listarUsuarios);
 router.get("/usuario/obter/:id", obterUsuario);
+router.get("/usuario/login", validarUsuarioLogin);
+router.post("/usuario/cadastrar", cadastrarUsuario);
 router.put("/usuario/atualizar/:id", atualizarNomeUsuario);
 router.delete("/usuario/deletar/:id", deletarUsuario);
-router.get("/usuario/login", validarUsuarioLogin);
+
 
 export default router;

@@ -57,6 +57,11 @@ export class UsuarioService {
   }
 
   async deletarUsuario(id) {
+    const usuarioEncontrado = await usuarioRepository.buscarPorId(id);
+    
+    if (!usuarioEncontrado) {
+      throw new Error("Usuário não encontrado.");
+    }
     return await usuarioRepository.deletarUsuario(id);
   }
 

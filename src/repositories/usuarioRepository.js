@@ -69,5 +69,7 @@ export class UsuarioRepository {
     return await prisma.usuarios.delete({
       where: { id },
     });
+    
+
   }
 }
