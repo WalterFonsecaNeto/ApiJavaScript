@@ -50,3 +50,11 @@ export async function deletarUsuario(req, res) {
     res.status(400).json({ erro: error.message });
   }
 }
+export async function validarUsuarioLogin(req, res) {
+  try {
+    const usuarioLogado = await usuarioService.validarUsuarioLogin(req.body);
+    res.status(200).json({ mensagem: "Usuário logado com sucesso!", usuarioLogado } );
+  } catch (error) {
+    res.status(400).json({ erro: error.message });
+  }
+}

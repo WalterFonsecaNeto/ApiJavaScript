@@ -45,6 +45,16 @@ export class UsuarioRepository {
       },
     });
   }
+  async validarUsuarioLogin(email){
+    return await prisma.usuarios.findUnique({
+      where: { email },
+      select: {
+        senha: true,
+        // Selecione apenas os campos necessários
+      },
+    });
+      
+  }
 
   async atualizarNomeUsuario(id, nome) {
     return await prisma.usuarios.update({

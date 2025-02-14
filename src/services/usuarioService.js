@@ -1,6 +1,6 @@
 import { UsuarioRepository } from "../repositories/usuarioRepository.js";
 import { Usuario } from "../domain/usuario.js";
-import bcrypt from 'bcrypt';
+import bcrypt from "bcrypt";
 
 const usuarioRepository = new UsuarioRepository();
 
@@ -28,14 +28,13 @@ export class UsuarioService {
 
   async listarUsuarios() {
     const usuarios = await usuarioRepository.listarUsuarios();
-  
+
     if (usuarios.length === 0) {
       throw new Error("Nenhum usuário encontrado.");
     }
 
-    return usuarios
+    return usuarios;
   }
-  
 
   async obterUsuario(id) {
     const usuario = await usuarioRepository.buscarPorId(id);
@@ -48,9 +47,8 @@ export class UsuarioService {
   }
 
   async atualizarNomeUsuario(id, nome) {
-
     const usuarioEncontrado = await usuarioRepository.buscarPorId(id);
-    
+
     if (!usuarioEncontrado) {
       throw new Error("Usuário não encontrado.");
     }
@@ -60,5 +58,23 @@ export class UsuarioService {
 
   async deletarUsuario(id) {
     return await usuarioRepository.deletarUsuario(id);
+  }
+
+  async validarUsuarioLogin(dados) {
+    // Buscar o usuário pelo e-mail
+    const usuarioLogado = await usuarioRepository.validarUsuarioLogin(
+      dados.email
+    );
+
+    if (!usuarioLogado) {
+      throw new Error("E-mail ou senha inválidos.");
+    }
+
+    // Comparar a senha fornecida com a senha criptografada armazenada
+    const senhaValida = await bcrypt.compare(dados.senha, usuarioLogado.senha);
+
+    if (!senhaValida) {
+      throw new Error("E-mail ou senha inválidos.");
+    }
   }
 }

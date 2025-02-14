@@ -5,6 +5,7 @@ import {
   obterUsuario,
   atualizarNomeUsuario,
   deletarUsuario,
+  validarUsuarioLogin
 } from "../controllers/usuarioController.js";
 
 const router = express.Router();
@@ -14,5 +15,6 @@ router.get("/usuario/listar", listarUsuarios);
 router.get("/usuario/obter/:id", obterUsuario);
 router.put("/usuario/atualizar/:id", atualizarNomeUsuario);
 router.delete("/usuario/deletar/:id", deletarUsuario);
+router.get("/usuario/login", validarUsuarioLogin);
 
 export default router;
