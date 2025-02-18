@@ -7,7 +7,7 @@ export class Usuario {
     email, 
     senha, 
     status = true, 
-    dataCriacao = new Date() 
+    dataCriacao = new Date(new Date().getTime() - (3 * 60 * 60 * 1000))
   }) {
     this.id = id;
     this.nome = nome;
@@ -29,9 +29,7 @@ export class Usuario {
     }
   }
   
-  async criptografarSenha() {
-    this.senha = await bcrypt.hash(this.senha, 10);
-  }
+  
 
 
 }

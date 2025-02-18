@@ -9,7 +9,7 @@ export class UsuarioService {
   async criarUsuarioAsync(usuario) {
 
     // Verificando se o email já existe
-    const usuarioExistente = await usuarioRepository.buscarUsuarioPorEmailAsync(
+    const usuarioExistente = await usuarioRepository.obterUsuarioPorEmailAsync(
       usuario.email
     );
     if (usuarioExistente) {
@@ -17,11 +17,12 @@ export class UsuarioService {
     }
 
     // Criando a entidade de domínio e validando os dados
-    const usuarioCriado = new Usuario(dados);
+    const usuarioCriado = new Usuario(usuario);
 
     usuarioCriado.validarDados();
 
-    usuarioCriado.criptografarSenha();
+    const senhaCriptografada = await bcrypt.hash(usuarioCriado.senha, 10);
+    usuarioCriado.senha = senhaCriptografada;
 
     return await usuarioRepository.criarUsuarioAsync(usuarioCriado);
   }

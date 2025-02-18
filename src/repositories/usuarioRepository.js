@@ -10,6 +10,14 @@ export class UsuarioRepository {
         status: usuario.status,
         dataCriacao: usuario.dataCriacao,
       },
+      select: {
+        id: true,
+        nome: true,
+        email: true,
+        senha: false,
+        status: false,
+        dataCriacao: true,
+      },
     });
   }
 
@@ -29,9 +37,9 @@ export class UsuarioRepository {
     });
   }
 
-  async obterUsuarioPorIdAsync(usuarioId) {
+  async obterUsuarioPorIdAsync(id) {
     return await prisma.usuarios.findUnique({
-      where: { usuarioId },
+      where: { id },
       select: {
         id: true,
         nome: true,
@@ -70,27 +78,27 @@ export class UsuarioRepository {
     });
   }
 
-  async atualizarNomeUsuarioAsync(usuarioId, nome) {
+  async atualizarNomeUsuarioAsync(id, nome) {
     return await prisma.usuarios.update({
-      where: { usuarioId },
+      where: { id },
       data: {
         nome: nome,
       },
     });
   }
 
-  async deletarUsuarioAsync(usuarioId) {
+  async deletarUsuarioAsync(id) {
     return await prisma.usuarios.update({
-      where: { usuarioId },
+      where: { id },
       data: {
         status: false,
       },
     });
   }
 
-  async obterUsuarioPorIdComLoja(usuarioId) {
+  async obterUsuarioPorIdComLoja(id) {
     return await prisma.usuarios.findUnique({
-      where: { usuarioId },
+      where: { id },
       select: {
         id: true,
         nome: true,
