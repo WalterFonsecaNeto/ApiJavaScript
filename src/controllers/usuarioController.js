@@ -2,44 +2,49 @@ import { UsuarioService } from "../services/usuarioService.js";
 
 const usuarioService = new UsuarioService();
 
-export async function cadastrarUsuario(req, res) {
+export async function criarUsuarioAsync(req, res) {
   try {
-    const novoUsuario = await usuarioService.criarUsuario(req.body);
+    const novoUsuario = await usuarioService.criarUsuarioAsync(req.body);
     res.status(201).json(novoUsuario);
   } catch (error) {
     res.status(400).json({ erro: error.message });
   }
 }
 
-export async function listarUsuarios(req, res) {
+export async function listarUsuariosAsync(req, res) {
   try {
-    const usuarios = await usuarioService.listarUsuarios();
+   
+    const ativo = req.query.ativo === 'true'; // Se 'ativo' for a string "true", será convertido para true, senão, será false
+
+    const usuarios = await usuarioService.listarUsuariosAsync(ativo);
     res.status(200).json(usuarios);
+
   } catch (error) {
-    res.status(404).json({ erro: error.message });
+    res.status(500).json({ erro: error.message }); // Mudando para o código 500 para erro interno
   }
 }
 
-export async function obterUsuario(req, res) {
+export async function obterUsuarioPorIdAsync(req, res) {
   try {
-    const usuario = await usuarioService.obterUsuario(req.params.id);
-    res.status(200).json(usuario);
-  } catch (error) {
-    res.status(404).json({ erro: error.message });
-  }
-}
-export async function obterUsuarioComLoja(req, res) {
-  try {
-    const usuario = await usuarioService.obterUsuarioComLoja(req.params.id);
+    const usuario = await usuarioService.obterUsuarioPorIdAsync(req.params.id);
     res.status(200).json(usuario);
   } catch (error) {
     res.status(404).json({ erro: error.message });
   }
 }
 
-export async function atualizarNomeUsuario(req, res) {
+export async function obterUsuarioPorIdComLoja(req, res) {
   try {
-    const usuarioAtualizado = await usuarioService.atualizarNomeUsuario(
+    const usuario = await usuarioService.obterUsuarioPorIdComLoja(req.params.id);
+    res.status(200).json(usuario);
+  } catch (error) {
+    res.status(404).json({ erro: error.message });
+  }
+}
+
+export async function atualizarNomeUsuarioAsync(req, res) {
+  try {
+    const usuarioAtualizado = await usuarioService.atualizarNomeUsuarioAsync(
       req.params.id,
       req.body.nome
     );
@@ -49,18 +54,24 @@ export async function atualizarNomeUsuario(req, res) {
   }
 }
 
-export async function deletarUsuario(req, res) {
+export async function deletarUsuarioAsync(req, res) {
+
   try {
-    await usuarioService.deletarUsuario(req.params.id);
+    await usuarioService.deletarUsuarioAsync(req.params.id);
+
     res.status(200).json({ mensagem: "Usuário deletado com sucesso!" });
+
   } catch (error) {
     res.status(400).json({ erro: error.message });
   }
 }
-export async function validarUsuarioLogin(req, res) {
+
+export async function validarUsuarioLoginAsync(req, res) {
   try {
-    const usuarioLogado = await usuarioService.validarUsuarioLogin(req.body);
+    const usuarioLogado = await usuarioService.validarUsuarioLoginAsync(req.body);
+
     res.status(200).json({ mensagem: "Usuário logado com sucesso!", usuarioLogado } );
+    
   } catch (error) {
     res.status(400).json({ erro: error.message });
   }

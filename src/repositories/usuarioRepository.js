@@ -1,89 +1,104 @@
 import { prisma } from "../prisma/prismaClient.js";
 
 export class UsuarioRepository {
-  async criarUsuario(usuario) {
+  async criarUsuarioAsync(usuario) {
     return await prisma.usuarios.create({
       data: {
         nome: usuario.nome,
         email: usuario.email,
         senha: usuario.senha,
+        status: usuario.status,
+        dataCriacao: usuario.dataCriacao,
       },
     });
   }
 
-  async listarUsuarios() {
+  async listarUsuariosAsync(status) {
     return await prisma.usuarios.findMany({
+      where: {
+        status: status === true, // Verifica se o status é igual a true
+      },
       select: {
         id: true,
         nome: true,
         email: true,
-        // Selecione apenas os campos necessários
+        senha: false,
+        status: false,
+        dataCriacao: true,
       },
     });
   }
 
-  async buscarPorId(id) {
+  async obterUsuarioPorIdAsync(usuarioId) {
     return await prisma.usuarios.findUnique({
-      where: { id },
+      where: { usuarioId },
       select: {
         id: true,
         nome: true,
         email: true,
-        // Selecione apenas os campos necessários
+        senha: false,
+        status: false,
+        dataCriacao: true,
       },
     });
   }
 
-  async buscarPorEmail(email) {
+  async obterUsuarioPorEmailAsync(email) {
     return await prisma.usuarios.findUnique({
       where: { email },
       select: {
         id: true,
         nome: true,
         email: true,
-        // Selecione apenas os campos necessários
+        senha: false,
+        status: false,
+        dataCriacao: true,
       },
     });
   }
-  async validarUsuarioLogin(email) {
+  async validarUsuarioLoginAsync(email) {
     return await prisma.usuarios.findUnique({
       where: { email },
       select: {
+        id: false,
+        nome: false,
+        email: false,
         senha: true,
-        // Selecione apenas os campos necessários
+        status: false,
+        dataCriacao: false,
       },
     });
   }
 
-  async atualizarNomeUsuario(id, nome) {
+  async atualizarNomeUsuarioAsync(usuarioId, nome) {
     return await prisma.usuarios.update({
-      where: { id },
+      where: { usuarioId },
       data: {
         nome: nome,
       },
     });
   }
 
-  async deletarUsuario(id) {
-    return await prisma.usuarios.delete({
-      where: { id },
+  async deletarUsuarioAsync(usuarioId) {
+    return await prisma.usuarios.update({
+      where: { usuarioId },
+      data: {
+        status: false,
+      },
     });
   }
 
-  async buscarPorIdComLoja(id) {
+  async obterUsuarioPorIdComLoja(usuarioId) {
     return await prisma.usuarios.findUnique({
-      where: { id },
+      where: { usuarioId },
       select: {
         id: true,
         nome: true,
         email: true,
-        loja: {
-          select: {
-            nome: true,
-            endereco: true,
-            // Aqui você pega o nome da loja relacionada
-          },
-        },
+        senha: false,
+        status: false,
+        dataCriacao: true,
+        loja: true,
       },
     });
   }
