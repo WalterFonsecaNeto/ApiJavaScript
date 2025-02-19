@@ -1,90 +1,101 @@
 import { prisma } from "../prisma/prismaClient.js";
 
 export class LojaRepository {
+
   async criarLojaAsync(loja) {
     return await prisma.lojas.create({
       data: {
         nome: loja.nome,
         endereco: loja.endereco,
-        
-
-
-
+        numero: loja.numero,
+        usuarioId: loja.usuarioId,
+        cnpj: loja.cnpj,
+        telefone: loja.telefone,
+        email: loja.email,
       },
+      select:{
+        id: true,
+        nome: true,
+        endereco: true,
+        numero: true,
+        usuarioId: true,
+        cnpj: true,
+        telefone: true,
+        email: true,
+      }
     });
   }
 
-  async listarUsuarios() {
-    return await prisma.usuarios.findMany({
+  async listarLojaAsync(status) {
+    return await prisma.lojas.findMany({
+      where: {status: status === true},
       select: {
         id: true,
         nome: true,
+        endereco: true,
+        numero: true,
+        usuarioId: true,
+        cnpj: true,
+        telefone: true,
         email: true,
-        // Selecione apenas os campos necessários
       },
     });
   }
 
-  async buscarPorId(id) {
-    return await prisma.usuarios.findUnique({
+  async obterLojaPorIdAsync(id) {
+    return await prisma.lojas.findUnique({
       where: { id },
       select: {
         id: true,
         nome: true,
+        endereco: true,
+        numero: true,
+        usuarioId: true,
+        cnpj: true,
+        telefone: true,
         email: true,
-        // Selecione apenas os campos necessários
       },
     });
   }
 
-  async buscarPorEmail(email) {
-    return await prisma.usuarios.findUnique({
-      where: { email },
-      select: {
-        id: true,
-        nome: true,
-        email: true,
-        // Selecione apenas os campos necessários
-      },
-    });
-  }
-  async validarUsuarioLogin(email) {
-    return await prisma.usuarios.findUnique({
-      where: { email },
-      select: {
-        senha: true,
-        // Selecione apenas os campos necessários
-      },
-    });
-  }
-
-  async atualizarNomeUsuario(id, nome) {
+  async atualizarLojaAsync(id, loja) {
     return await prisma.usuarios.update({
       where: { id },
       data: {
-        nome: nome,
+        nome: loja.nome,
+        endereco: loja.endereco,
+        numero: loja.numero,
+        telefone: loja.telefone,
+        email: loja.email,
       },
     });
   }
 
-  async deletarUsuario(id) {
-    return await prisma.usuarios.delete({
+  async deletarUsuarioAsync(id) {
+    return await prisma.lojas.update({
       where: { id },
+      data: {
+        status: false,
+      },
     });
   }
 
-  async buscarPorIdComLoja(id) {
-    return await prisma.usuarios.findUnique({
+  async obterLojaPorIdComUsuarioAsync(id) {
+    return await prisma.lojas.findUnique({
       where: { id },
       select: {
         id: true,
         nome: true,
+        endereco: true,
+        numero: true,
+        usuarioId: true,
+        cnpj: true,
+        telefone: true,
         email: true,
-        loja: {
+        usuario: {
           select: {
             nome: true,
-            endereco: true,
-          
+            email: true,
           },
         },
       },
