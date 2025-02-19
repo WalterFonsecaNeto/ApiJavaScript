@@ -16,7 +16,7 @@ const router = express.Router();
 router.get("/usuario/listar", listarUsuariosAsync);
 router.get("/usuario/obter/:id", obterUsuarioPorIdAsync);
 router.get("/usuario/obterComLoja/:id", obterUsuarioPorIdComLoja);
-router.get("/usuario/login", validarUsuarioLoginAsync);
+router.post("/usuario/login", validarUsuarioLoginAsync);
 router.post("/usuario/cadastrar", criarUsuarioAsync);
 router.put("/usuario/atualizar/:id", atualizarNomeUsuarioAsync);
 router.put("/usuario/deletar/:id", deletarUsuarioAsync);
