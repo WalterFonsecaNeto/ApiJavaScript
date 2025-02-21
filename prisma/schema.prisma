@@ -7,10 +7,34 @@ datasource db {
   url      = env("DATABASE_URL") // URL do MongoDB definida no .env
 }
 
-
 model Usuarios {
-  id       String  @id @default(auto()) @map("_id") @db.ObjectId
-  nome     String
-  email    String  @unique
-  senha    String
+  id          String   @id @default(auto()) @map("_id") @db.ObjectId
+  nome        String
+  email       String   @unique
+  senha       String
+  status      Boolean
+  dataCriacao DateTime
+
+
+
+  loja        Lojas?   @relation // Relacionamento opcional com Loja
+}
+
+model Lojas {
+  id          String   @id @default(auto()) @map("_id") @db.ObjectId
+  nome        String
+  endereco    String
+  numero      String
+  cnpj        String
+  telefone    String
+  email       String
+  status      Boolean
+  dataCriacao DateTime
+
+
+
+
+
+  usuarioId String   @unique @db.ObjectId // Torna o campo usuarioId único
+  usuario   Usuarios @relation(fields: [usuarioId], references: [id])  // Relacionamento com usuário
 }
