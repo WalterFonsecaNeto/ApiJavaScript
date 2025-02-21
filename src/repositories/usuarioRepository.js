@@ -68,7 +68,7 @@ export class UsuarioRepository {
     return await prisma.usuarios.findUnique({
       where: { email },
       select: {
-        id: false,
+        id: true,
         nome: false,
         email: false,
         senha: true,

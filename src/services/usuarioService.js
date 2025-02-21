@@ -97,5 +97,7 @@ export class UsuarioService {
     if (!senhaValida) {
       throw new Error("E-mail ou senha inválidos.");
     }
+
+    return usuarioLogado.id;
   }
 }
