@@ -15,6 +15,7 @@ app.use(express.json());
 
 app.use("/api", usuarioRoutes); // Todas as rotas começam com /api
 
+const port = process.env.PORT  || 4000
 
 app.listen(4000, () => {
   console.log("Servidor rodando na porta 4000 🚀");
