@@ -73,7 +73,7 @@ export class LojaService {
     return await lojaRepository.atualizarLojaAsync(lojaId, loja);
   }
 
-  async obterLojaPorIdAsync(lojaId) {
+  async deletarLojaPorId(lojaId) {
     const lojaEncontrada = await lojaRepository.obterLojaPorIdAsync(lojaId);
 
     if (!lojaEncontrada) {
