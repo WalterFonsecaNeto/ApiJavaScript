@@ -5,7 +5,7 @@ import { Loja } from "../domain/loja.js";
 const usuarioRepository = new UsuarioRepository();
 const lojaRepository = new LojaRepository();
 
-export class UsuarioService {
+export class LojaService {
   async criarLojaAsync(loja) {
     const usuarioEstaVinculado = usuarioRepository.obterUsuarioPorIdComLoja(
       loja.usuarioId
@@ -30,6 +30,15 @@ export class UsuarioService {
     }
 
     return loja;
+  }
+
+  async listarLojasDeUmUsuarioAsync(ativo, usuarioId){
+    const loja = await lojaRepository.listarLojasDeUmUsuarioAsync(ativo, usuarioId);
+    if (loja.length === 0) {
+      throw new Error("Nenhuma loja encontrada.");
+    }
+    return loja;
+
   }
 
   async obterLojaPorIdAsync(lojaId) {

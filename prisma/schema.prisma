@@ -15,9 +15,7 @@ model Usuarios {
   status      Boolean
   dataCriacao DateTime
 
-
-
-  loja        Lojas?   @relation // Relacionamento opcional com Loja
+  lojas       Lojas[]  // Relacionamento com várias lojas
 }
 
 model Lojas {
@@ -31,10 +29,6 @@ model Lojas {
   status      Boolean
   dataCriacao DateTime
 
-
-
-
-
-  usuarioId String   @unique @db.ObjectId // Torna o campo usuarioId único
-  usuario   Usuarios @relation(fields: [usuarioId], references: [id])  // Relacionamento com usuário
+  usuarioId   String   @db.ObjectId // Removido o @unique para permitir várias lojas por usuário
+  usuario     Usuarios @relation(fields: [usuarioId], references: [id])  // Relacionamento com usuário
 }
