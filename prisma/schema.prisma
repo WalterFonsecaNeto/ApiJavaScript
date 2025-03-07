@@ -16,7 +16,7 @@ model Usuarios {
   dataCriacao DateTime
   tipoUsuario Int
 
-  lojas Lojas[] // Relacionamento com várias lojas
+  lojas UsuarioLoja[] // Relacionamento muitos-para-muitos via tabela de junção
 }
 
 model Lojas {
@@ -34,12 +34,17 @@ model Lojas {
   status      Boolean
   dataCriacao DateTime
 
-  usuarioId String   @db.ObjectId // Removido o @unique para permitir várias lojas por usuário
-  usuario   Usuarios @relation(fields: [usuarioId], references: [id]) // Relacionamento com usuário
+  usuarios UsuarioLoja[] // Relacionamento muitos-para-muitos via tabela de junção
 }
 
-// enum TipoUsuario {
-//   ADMIN 
-//   GERENTE
-//   USUARIO
-// }
+// Tabela de junção para o relacionamento muitos-para-muitos
+model UsuarioLoja {
+  id        String @id @default(auto()) @map("_id") @db.ObjectId
+  usuarioId String @db.ObjectId
+  lojaId    String @db.ObjectId
+
+  usuario Usuarios @relation(fields: [usuarioId], references: [id])
+  loja    Lojas    @relation(fields: [lojaId], references: [id])
+
+  @@unique([usuarioId, lojaId]) // Garante que cada par usuário-loja seja único
+}
