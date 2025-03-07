@@ -7,11 +7,11 @@ const lojaRepository = new LojaRepository();
 
 export class LojaService {
   async criarLojaAsync(loja) {
-    const usuarioEstaVinculado = usuarioRepository.obterUsuarioPorIdComLoja(
+    const usuarioEncontrado = usuarioRepository.obterUsuarioPorIdAsync(
       loja.usuarioId
     );
-    if (usuarioEstaVinculado) {
-      throw new Error("Este usuário já possui uma loja vinculada.");
+    if (usuarioEncontrado) {
+      throw new Error("Usuario não encontrado.");
     }
 
     // Criando a entidade de domínio e validando os dados
