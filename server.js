@@ -1,6 +1,7 @@
 import express from "express";
 import cors from "cors"; // Importando o cors
 import usuarioRoutes from "./src/routes/usuarioRoutes.js";
+import lojaRoutes from "./src/routes/lojaRoutes.js"
 
 const app = express();
 
@@ -14,6 +15,7 @@ app.use(
 app.use(express.json());
 
 app.use("/api", usuarioRoutes); // Todas as rotas começam com /api
+app.use("/api", lojaRoutes); // Todas as rotas começam com /api
 
 const port = process.env.PORT  || 4000
 

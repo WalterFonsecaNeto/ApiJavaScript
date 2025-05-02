@@ -5,9 +5,7 @@ import bcrypt from "bcrypt";
 const usuarioRepository = new UsuarioRepository();
 
 export class UsuarioService {
-
   async criarUsuarioAsync(usuario) {
-
     // Verificando se o email já existe
     const usuarioExistente = await usuarioRepository.obterUsuarioPorEmailAsync(
       usuario.email
@@ -20,15 +18,17 @@ export class UsuarioService {
     const usuarioCriado = new Usuario(usuario);
 
     usuarioCriado.validarDados();
+    console.log(usuarioCriado.obterTipoUsuario());
 
     const senhaCriptografada = await bcrypt.hash(usuarioCriado.senha, 10);
     usuarioCriado.senha = senhaCriptografada;
+    
 
     return await usuarioRepository.criarUsuarioAsync(usuarioCriado);
+
   }
 
   async listarUsuariosAsync(ativo) {
-
     const usuarios = await usuarioRepository.listarUsuariosAsync(ativo);
 
     if (usuarios.length === 0) {
@@ -39,8 +39,9 @@ export class UsuarioService {
   }
 
   async obterUsuarioPorIdAsync(usuarioId) {
-    
-    const usuarioEncontrado = await usuarioRepository.obterUsuarioPorIdAsync(usuarioId);
+    const usuarioEncontrado = await usuarioRepository.obterUsuarioPorIdAsync(
+      usuarioId
+    );
 
     if (!usuarioEncontrado) {
       throw new Error("Usuário não encontrado.");
@@ -50,7 +51,9 @@ export class UsuarioService {
   }
 
   async obterUsuarioPorIdComLoja(usuarioId) {
-    const usuarioEncontrado = await usuarioRepository.obterUsuarioPorIdComLoja(usuarioId);
+    const usuarioEncontrado = await usuarioRepository.obterUsuarioPorIdComLoja(
+      usuarioId
+    );
 
     if (!usuarioEncontrado) {
       throw new Error("Usuário não encontrado.");
@@ -60,8 +63,9 @@ export class UsuarioService {
   }
 
   async atualizarNomeUsuarioAsync(usuarioId, nome) {
-
-    const usuarioEncontrado = await usuarioRepository.obterUsuarioPorIdAsync(usuarioId);
+    const usuarioEncontrado = await usuarioRepository.obterUsuarioPorIdAsync(
+      usuarioId
+    );
 
     if (!usuarioEncontrado) {
       throw new Error("Usuário não encontrado.");
@@ -71,8 +75,9 @@ export class UsuarioService {
   }
 
   async deletarUsuarioAsync(usuarioId) {
-
-    const usuarioEncontrado = await usuarioRepository.obterUsuarioPorIdAsync(usuarioId);
+    const usuarioEncontrado = await usuarioRepository.obterUsuarioPorIdAsync(
+      usuarioId
+    );
 
     if (!usuarioEncontrado) {
       throw new Error("Usuário não encontrado.");
@@ -81,7 +86,6 @@ export class UsuarioService {
   }
 
   async validarUsuarioLoginAsync(usuario) {
-
     const usuarioLogado = await usuarioRepository.validarUsuarioLoginAsync(
       usuario.email
     );
@@ -90,14 +94,16 @@ export class UsuarioService {
       throw new Error("E-mail ou senha inválidos.");
     }
 
-
     // Comparar a senha fornecida com a senha criptografada armazenada
-    const senhaValida = await bcrypt.compare(usuario.senha, usuarioLogado.senha);
+    const senhaValida = await bcrypt.compare(
+      usuario.senha,
+      usuarioLogado.senha
+    );
 
     if (!senhaValida) {
       throw new Error("E-mail ou senha inválidos.");
     }
 
-    return usuarioLogado.id;
+    return usuarioLogado;
   }
 }

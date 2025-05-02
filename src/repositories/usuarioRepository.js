@@ -2,6 +2,7 @@ import { prisma } from "../prisma/prismaClient.js";
 
 export class UsuarioRepository {
   async criarUsuarioAsync(usuario) {
+    
     return await prisma.usuarios.create({
       data: {
         nome: usuario.nome,
@@ -9,6 +10,7 @@ export class UsuarioRepository {
         senha: usuario.senha,
         status: usuario.status,
         dataCriacao: usuario.dataCriacao,
+        tipoUsuario: usuario.tipoUsuario
       },
       select: {
         id: true,
@@ -17,6 +19,7 @@ export class UsuarioRepository {
         senha: false,
         status: false,
         dataCriacao: true,
+        tipoUsuario: true,
       },
     });
   }
@@ -33,6 +36,7 @@ export class UsuarioRepository {
         senha: false,
         status: false,
         dataCriacao: true,
+        tipoUsuario: true,
       },
     });
   }
@@ -74,6 +78,7 @@ export class UsuarioRepository {
         senha: true,
         status: false,
         dataCriacao: false,
+        tipoUsuario: true,
       },
     });
   }

@@ -41,6 +41,25 @@ export class LojaRepository {
       },
     });
   }
+  async listarLojasDeUmUsuarioAsync(status, usuarioId) {
+    return await prisma.lojas.findMany({
+      where: {
+        status: status, // Certifique-se de que o status está correto
+        usuarioId: usuarioId, // Garante que filtra pelo usuário correto
+      },
+      select: {
+        id: true,
+        nome: true,
+        endereco: true,
+        numero: true,
+        usuarioId: true,
+        cnpj: true,
+        telefone: true,
+        email: true,
+      },
+    });
+  }
+  
 
   async obterLojaPorIdAsync(id) {
     return await prisma.lojas.findUnique({

@@ -68,9 +68,9 @@ export async function deletarUsuarioAsync(req, res) {
 
 export async function validarUsuarioLoginAsync(req, res) {
   try {
-    const usuarioId = await usuarioService.validarUsuarioLoginAsync(req.body);
+    const usuarioLogado = await usuarioService.validarUsuarioLoginAsync(req.body);
 
-    res.status(200).json({ mensagem: "Usuário logado com sucesso!", usuarioId } );
+    res.status(200).json({ mensagem: "Usuário logado com sucesso!", usuarioId: usuarioLogado.id, tipoUsuarioId: usuarioLogado.tipoUsuario} );
     
   } catch (error) {
     res.status(400).json({ erro: error.message });

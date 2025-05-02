@@ -5,13 +5,13 @@ import { Loja } from "../domain/loja.js";
 const usuarioRepository = new UsuarioRepository();
 const lojaRepository = new LojaRepository();
 
-export class UsuarioService {
+export class LojaService {
   async criarLojaAsync(loja) {
-    const usuarioEstaVinculado = usuarioRepository.obterUsuarioPorIdComLoja(
+    const usuarioEncontrado = usuarioRepository.obterUsuarioPorIdAsync(
       loja.usuarioId
     );
-    if (usuarioEstaVinculado) {
-      throw new Error("Este usuário já possui uma loja vinculada.");
+    if (usuarioEncontrado) {
+      throw new Error("Usuario não encontrado.");
     }
 
     // Criando a entidade de domínio e validando os dados
@@ -30,6 +30,15 @@ export class UsuarioService {
     }
 
     return loja;
+  }
+
+  async listarLojasDeUmUsuarioAsync(ativo, usuarioId){
+    const loja = await lojaRepository.listarLojasDeUmUsuarioAsync(ativo, usuarioId);
+    if (loja.length === 0) {
+      throw new Error("Nenhuma loja encontrada.");
+    }
+    return loja;
+
   }
 
   async obterLojaPorIdAsync(lojaId) {
@@ -64,7 +73,7 @@ export class UsuarioService {
     return await lojaRepository.atualizarLojaAsync(lojaId, loja);
   }
 
-  async obterLojaPorIdAsync(lojaId) {
+  async deletarLojaPorId(lojaId) {
     const lojaEncontrada = await lojaRepository.obterLojaPorIdAsync(lojaId);
 
     if (!lojaEncontrada) {
